@@ -1,0 +1,73 @@
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .admin-sidebar {
+    width: 220px;
+    background-color: #1e1e2f;
+    color: white;
+    padding: 1rem;
+  }
+  
+  .admin-sidebar h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .admin-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .admin-sidebar li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .admin-sidebar a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .admin-sidebar a.active {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  
+  .admin-content {
+    flex: 1;
+    padding: 2rem;
+  }
+  .admin-layout {
+    background-color: yellow;
+  }
+
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 6px;
+    min-width: 300px;
+  }
+  .searchInput {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
