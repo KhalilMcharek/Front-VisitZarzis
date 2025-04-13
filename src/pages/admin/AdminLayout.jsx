@@ -16,6 +16,10 @@ const AdminLayout = () => {
           <li>
             <NavLink to="/admin/users">User List</NavLink>
           </li>
+        
+          <li>
+            <NavLink to="/admin/activities">activities</NavLink>
+          </li>
         </ul>
       </aside>
 

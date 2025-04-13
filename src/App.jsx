@@ -12,6 +12,8 @@ import Navbar from "./components/Navbar";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PendingManagers from "./pages/admin/PendingManagers";
 import UserList from "./pages/admin/UserList";
+import ActivitiesDash from "./components/ActivitiesDash";
+import ManagerLayout from "./pages/manager/ManagerLayout";
 
 export default function App() {
   return (
@@ -30,13 +32,18 @@ export default function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="managers" element={<PendingManagers />} />
             <Route path="users" element={<UserList />} />
+            <Route path="activities">
+              <Route index element={<ActivitiesDash />} />
+              <Route path=":id" element={<h2>Activity Details</h2>} />
+            </Route>
           </Route>
         </Route>
-        
 
-        {/* Manager protected route */}
         <Route element={<PrivateRoute allowedRoles={["manager"]} />}>
-          <Route path="/manager" element={<ManagerDashboard />} />
+          <Route path="/manager" element={<ManagerLayout />}>
+            <Route path="activities" element={<ActivitiesDash />} />
+            <Route path="activities/:id" element={<h2>Détail d’activité</h2>} />
+          </Route>
         </Route>
       </Routes>
     </div>
