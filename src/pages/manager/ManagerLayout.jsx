@@ -5,11 +5,14 @@ import "../../styles/app.css";
 const ManagerLayout = () => {
   return (
     <div className="admin-layout">
-      <aside  className="admin-sidebar">
+      <aside className="admin-sidebar">
         <h2>Manager Panel</h2>
         <ul>
           <li>
             <NavLink to="/manager/activities">activities</NavLink>
+          </li>
+          <li>
+            <NavLink to="/manager/reservations">Réservations</NavLink>
           </li>
         </ul>
       </aside>

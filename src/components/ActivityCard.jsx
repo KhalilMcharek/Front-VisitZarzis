@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import styles from "../styles/ActivityCard.module.css";
 
 const ActivityCard = ({ activity }) => {
-    console.log("Activity reçue :", activity);
   return (
     <Link to={`/activities/${activity._id}`} className={styles.card}>
       <img

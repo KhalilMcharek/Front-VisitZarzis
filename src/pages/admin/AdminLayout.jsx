@@ -8,7 +8,9 @@ const AdminLayout = () => {
         <h2>Admin Panel</h2>
         <ul>
           <li>
-            <NavLink to="/admin" end>Dashboard</NavLink>
+            <NavLink to="/admin" end>
+              Dashboard
+            </NavLink>
           </li>
           <li>
             <NavLink to="/admin/managers">Pending Managers</NavLink>
@@ -16,9 +18,12 @@ const AdminLayout = () => {
           <li>
             <NavLink to="/admin/users">User List</NavLink>
           </li>
-        
+
           <li>
             <NavLink to="/admin/activities">activities</NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/reservations">Réservations</NavLink>
           </li>
         </ul>
       </aside>

@@ -1,9 +1,14 @@
-// src/components/AddActivity.jsx
 import { useState } from "react";
-import api from "../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { createActivity } from "../redux/slices/activitiesSlice";
+import ActivityForm from "./ActivityForm"; 
 import styles from "../styles/modal.module.css";
 
+
 const AddActivity = ({ onClose, onCreated }) => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.activities);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -41,33 +46,28 @@ const AddActivity = ({ onClose, onCreated }) => {
     }
 
     try {
-      await api.post("/api/activities", data);
+      await dispatch(createActivity(data)).unwrap();
       setMessage("Activité créée avec succès.");
-      onCreated(); // pour rafraîchir la liste
-      setTimeout(onClose, 1000); // fermer après 1 sec
+      onCreated();
+      setTimeout(onClose, 1000);
     } catch (err) {
       console.error("Erreur création :", err);
-      alert("Erreur lors de la création de l’activité.");
+      alert(err);
     }
   };
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <h3>Nouvelle activité</h3>
-        <form onSubmit={handleSubmit}>
-          <input name="title" placeholder="Titre" onChange={handleChange} required />
-          <textarea name="description" placeholder="Description" onChange={handleChange} required />
-          <input name="location" placeholder="Lieu" onChange={handleChange} required />
-          <input name="price" type="number" placeholder="Prix" onChange={handleChange} required />
-          <label>Image principale</label>
-          <input name="mainImage" type="file" accept="image/*" onChange={handleChange} required />
-          <label>Galerie (optionnel)</label>
-          <input name="gallery" type="file" accept="image/*" multiple onChange={handleChange} />
-
-          <button type="submit">Ajouter</button>
-          <button type="button" onClick={onClose}>Annuler</button>
-        </form>
+      <h3 style={{ marginTop: "30px", marginBottom: "20px" }}>Nouvelle activité</h3>        
+      <ActivityForm
+          formData={formData}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          loading={loading}
+          mode="add"
+          onCancel={onClose}
+        />
         {message && <p className={styles.success}>{message}</p>}
       </div>
     </div>

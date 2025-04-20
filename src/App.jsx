@@ -12,8 +12,11 @@ import Navbar from "./components/Navbar";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PendingManagers from "./pages/admin/PendingManagers";
 import UserList from "./pages/admin/UserList";
-import ActivitiesDash from "./components/ActivitiesDash";
-import ManagerLayout from "./pages/manager/ManagerLayout";
+import ActivitiesList from "./components/ActivitiesList";
+import ManagerLayout from "./pages/manager/ManagerLayout"
+import ActivityDetails from "./components/ActivityDetails";
+import ManagerReservations from "./pages/manager/ManagerReservations";
+import AdminReservations from "./pages/admin/AdminReservations";
 
 export default function App() {
   return (
@@ -25,6 +28,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/activities/:id" element={<ActivityDetails />} />
 
         {/* Admin protected routes */}
         <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
@@ -32,17 +36,19 @@ export default function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="managers" element={<PendingManagers />} />
             <Route path="users" element={<UserList />} />
+            <Route path="reservations" element={<AdminReservations />} />
             <Route path="activities">
-              <Route index element={<ActivitiesDash />} />
-              <Route path=":id" element={<h2>Activity Details</h2>} />
+              <Route index element={<ActivitiesList />} />
+              <Route path=":id" element={<ActivityDetails />} />
             </Route>
           </Route>
         </Route>
 
         <Route element={<PrivateRoute allowedRoles={["manager"]} />}>
           <Route path="/manager" element={<ManagerLayout />}>
-            <Route path="activities" element={<ActivitiesDash />} />
-            <Route path="activities/:id" element={<h2>Détail d’activité</h2>} />
+          <Route path="reservations" element={<ManagerReservations />} />
+            <Route path="activities" element={<ActivitiesList />} />
+            <Route path="activities/:id" element={<h2>Détails d’activité</h2>} />
           </Route>
         </Route>
       </Routes>
