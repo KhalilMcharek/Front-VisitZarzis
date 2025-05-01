@@ -30,7 +30,7 @@ const ManagerReservations = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div >
       <h2>Mes Réservations</h2>
 
       {loading && <p>Chargement...</p>}

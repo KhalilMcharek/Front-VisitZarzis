@@ -1,38 +1,12 @@
+.cardLink {
+  text-decoration: none;
+}
+
+.image {
+  height: 200px;
+  object-fit: cover;
+}
+
 .card {
-    display: block;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s;
-    width: 260px;
-  }
-  
-  .card:hover {
-    transform: scale(1.02);
-  }
-  
-  .image {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-  }
-  
-  .content {
-    padding: 12px;
-  }
-  
-  .content h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #222;
-  }
-  
-  .content p {
-    font-size: 14px;
-    color: #666;
-    margin-top: 6px;
-  }
-  
+  margin-bottom: 20px;
+}

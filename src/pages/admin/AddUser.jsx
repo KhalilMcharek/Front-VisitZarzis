@@ -20,10 +20,23 @@ const AddUser = ({ onClose, onUserAdded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    const dataToSend = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      role: formData.role,
+    };
+  
+    // Only include registerNumber if role is "manager"
+    if (formData.role === "manager") {
+      dataToSend.registerNumber = formData.registerNumber;
+    }
+  
     try {
-      await api.post("/api/users", formData);
-      onUserAdded(); // Rafraîchir la liste
-      onClose();     // Fermer la modal
+      await api.post("/api/users", dataToSend); // ✅ now clean
+      onUserAdded();
+      onClose();
     } catch (err) {
       console.error("Erreur création :", err);
       alert("Erreur lors de l'ajout de l'utilisateur.");

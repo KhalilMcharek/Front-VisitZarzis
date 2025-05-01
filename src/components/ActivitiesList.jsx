@@ -1,49 +1,51 @@
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, Typography, Button } from "antd";
+import { DeleteFilled, PlusOutlined } from "@ant-design/icons";
+import ActivityCard from "./ActivityCard";
+import AddActivity from "./AddActivity";
 import { fetchActivities } from "../redux/slices/activitiesSlice";
 import api from "../utils/api";
-import ActivityCard from "./ActivityCard";
-import styles from "../styles/activitiesDash.module.css";
-import AddActivity from "./AddActivity";
 
-const ActivitiesList = () => {
+const { Title } = Typography;
+
+const ActivitiesList = ({ showControls = true }) => {
   const dispatch = useDispatch();
   const { activities, loading, error } = useSelector((state) => state.activities);
   const [showAddModal, setShowAddModal] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    dispatch(fetchActivities());
-  }, [dispatch]);
-
   const handleDelete = async (id) => {
-    const confirm = window.confirm("Supprimer cette activité ?");
-    if (!confirm) return;
+    const confirmed = window.confirm("Supprimer cette activité ?");
+    if (!confirmed) return;
 
     try {
       await api.delete(`/api/activities/${id}`);
-      dispatch(fetchActivities()); 
+      dispatch(fetchActivities());
     } catch (err) {
-      alert("Erreur lors de la suppression.");
-      console.error(err);
+      console.error("Erreur de suppression :", err);
+      alert("Échec de la suppression.");
     }
   };
 
-  //const handleEdit = (activity) => {
-    //console.log("Éditer activité :", activity);
-  //};
-
   return (
     <div>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Mes Activités</h2>
-        <button onClick={() => setShowAddModal(true)} className={styles.addBtn}>
-          ➕ Ajouter une activité
-        </button>
-      </div>
+      {showControls && (
+        <div className="flex justify-between items-center mb-4">
+          <Title level={3}>Mes Activités</Title>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 border-none px-4 py-1.5 rounded-md shadow-md"
+          >
+            Ajouter
+          </Button>
+        </div>
+      )}
 
       {loading && <p>Chargement...</p>}
-      {error && <p className="error-message">{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {showAddModal && (
         <AddActivity
@@ -52,31 +54,26 @@ const ActivitiesList = () => {
         />
       )}
 
-      <div className={styles.grid}>
+      <Row gutter={[24, 24]}>
         {activities.map((activity) => (
-          <div key={activity._id} className={styles.cardWrapper}>
-            <ActivityCard activity={activity} />
-            {(user.role === "admin" || user.id === activity.manager?._id) && (
-              <div className={styles.actions}>
-                 {/*
-                <button
-                  onClick={() => handleEdit(activity)}
-                  className={styles.editBtn}
-                >
-                  Modifier
-                </button>
-                */}
-                <button
-                  onClick={() => handleDelete(activity._id)}
-                  className={styles.deleteBtn}
-                >
-                  Supprimer
-                </button>
-              </div>
-            )}
-          </div>
+          <Col key={activity._id} xs={24} sm={12} md={8} lg={6}>
+            <div style={{ position: "relative" }}>
+              <ActivityCard activity={activity} />
+              {showControls &&
+                (user?.role === "admin" || user?.id === activity.manager?._id) && (
+                  <div className="absolute top-2 right-2">
+                    <Button
+                      danger
+                      onClick={() => handleDelete(activity._id)}
+                      icon={<DeleteFilled />}
+                      size="middle"
+                    />
+                  </div>
+                )}
+            </div>
+          </Col>
         ))}
-      </div>
+      </Row>
     </div>
   );
 };

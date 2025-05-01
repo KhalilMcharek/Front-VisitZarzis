@@ -6,14 +6,14 @@ import "../src/styles/app.css";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Unauthorized from "./components/Unauthorized";
-import HomePage from "./pages/home/HomePage";
+import HomePage from "./pages/HomePage";
 import ManagerDashboard from "./pages/manager/ManagerDashboard";
 import Navbar from "./components/Navbar";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PendingManagers from "./pages/admin/PendingManagers";
 import UserList from "./pages/admin/UserList";
 import ActivitiesList from "./components/ActivitiesList";
-import ManagerLayout from "./pages/manager/ManagerLayout"
+import ManagerLayout from "./pages/manager/ManagerLayout";
 import ActivityDetails from "./components/ActivityDetails";
 import ManagerReservations from "./pages/manager/ManagerReservations";
 import AdminReservations from "./pages/admin/AdminReservations";
@@ -24,11 +24,18 @@ export default function App() {
       <Navbar />
       <Routes>
         {/* Public routes */}
-        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/activities/:id" element={<ActivityDetails />} />
+
+        <Route
+          element={
+            <PrivateRoute allowedRoles={["admin", "manager", "client"]} />
+          }
+        >
+          <Route path="/" element={<HomePage />} />
+          <Route path="/activities/:id" element={<ActivityDetails />} />
+        </Route>
 
         {/* Admin protected routes */}
         <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
@@ -38,7 +45,7 @@ export default function App() {
             <Route path="users" element={<UserList />} />
             <Route path="reservations" element={<AdminReservations />} />
             <Route path="activities">
-              <Route index element={<ActivitiesList />} />
+              <Route index element={<ActivitiesList showControls={true} />} />
               <Route path=":id" element={<ActivityDetails />} />
             </Route>
           </Route>
@@ -46,9 +53,15 @@ export default function App() {
 
         <Route element={<PrivateRoute allowedRoles={["manager"]} />}>
           <Route path="/manager" element={<ManagerLayout />}>
-          <Route path="reservations" element={<ManagerReservations />} />
-            <Route path="activities" element={<ActivitiesList />} />
-            <Route path="activities/:id" element={<h2>Détails d’activité</h2>} />
+            <Route path="reservations" element={<ManagerReservations />} />
+            <Route
+              path="activities"
+              element={<ActivitiesList showControls={true} />}
+            />
+            <Route
+              path="activities/:id"
+              element={<h2>Détails d’activité</h2>}
+            />
           </Route>
         </Route>
       </Routes>
